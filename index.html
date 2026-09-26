@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Corixo Expedições: projeto conceitual de site para uma agência fictícia de expedições no Pantanal.">
+<title>Corixo Expedições — Pantanal | Projeto de portfólio</title>
+<meta name="theme-color" content="#1d3a35">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Corixo Expedições — O Pantanal no ritmo da água">
+<meta property="og:description" content="Explore roteiros e um calendário interativo do Pantanal neste projeto conceitual de portfólio de Kaique.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d3a35'/%3E%3Cpath d='M10 38 Q22 8 32 32 T54 24' fill='none' stroke='%23eef0e9' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+
+:root{
+  --bg:#eef0e9; --surface:#f8f9f4; --ink:#16211b; --muted:#56635a;
+  --line:#cdd4c8; --line-strong:#7a877d;
+  --water:#2c5a53; --water-soft:#d6e3dd;
+  --red:#b8322a; --red-deep:#9a2922; --red-text:#b8322a; --on-red:#ffffff;
+  --band:#1d3a35; --on-band:#eef0e9; --on-band-muted:#b9c9c2;
+  --sky:#f1e3b9; --sun:#dba840; --trees:#1c2b23; --lake:#2f5e56; --glint:#ecd593;
+  --focus:#2c5a53;
+  --font-display:"Archivo","Arial Narrow","Helvetica Neue",Arial,sans-serif;
+  --font-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --space-1:4px; --space-2:8px; --space-3:16px; --space-4:24px; --space-5:40px; --space-6:64px; --space-7:104px;
+  --radius-sm:4px; --radius-md:8px; --radius-pill:999px;
+  --wrap:1160px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0f1612; --surface:#16201a; --ink:#e4e9e1; --muted:#9aa79d;
+    --line:#2a372f; --line-strong:#5f6e64;
+    --water:#76b0a4; --water-soft:#1d3631;
+    --red:#cf4336; --red-deep:#b8322a; --red-text:#ef7a6c; --on-red:#ffffff;
+    --band:#173029; --on-band:#e4e9e1; --on-band-muted:#a9bdb5;
+    --sky:#1b2620; --sun:#e6d49a; --trees:#070b09; --lake:#16332d; --glint:#b9a86a;
+    --focus:#76b0a4;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0f1612; --surface:#16201a; --ink:#e4e9e1; --muted:#9aa79d;
+  --line:#2a372f; --line-strong:#5f6e64;
+  --water:#76b0a4; --water-soft:#1d3631;
+  --red:#cf4336; --red-deep:#b8322a; --red-text:#ef7a6c; --on-red:#ffffff;
+  --band:#173029; --on-band:#e4e9e1; --on-band-muted:#a9bdb5;
+  --sky:#1b2620; --sun:#e6d49a; --trees:#070b09; --lake:#16332d; --glint:#b9a86a;
+  --focus:#76b0a4;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+h1,h2,h3{font-family:var(--font-display);font-stretch:72%;font-variation-settings:"wdth" 72;font-weight:800;line-height:.95;letter-spacing:-.005em;text-wrap:balance;margin:0}
+.mono{font-family:var(--font-mono)}
+.eyebrow{font-family:var(--font-mono);font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0}
+
+/* botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border-radius:var(--radius-sm);border:1px solid transparent;font-family:var(--font-mono);font-size:.8rem;font-weight:500;text-transform:uppercase;letter-spacing:.07em;text-decoration:none;cursor:pointer;transition:background-color .15s,color .15s,border-color .15s}
+.btn-red{background:var(--red);color:var(--on-red)}
+.btn-red:hover{background:var(--red-deep)}
+.btn-line{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--bg)}
+.btn-quiet{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.btn-quiet:hover{border-color:var(--ink)}
+.btn-sm{min-height:38px;padding:0 14px}
+
+/* cabeçalho */
+.site-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.head-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);min-height:64px}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--font-display);font-stretch:72%;font-variation-settings:"wdth" 72;font-weight:800;font-size:1.75rem;line-height:1;letter-spacing:.005em}
+.brand svg{width:34px;height:20px;color:var(--water);flex:none}
+.nav{display:flex;align-items:center;gap:var(--space-4)}
+.nav a:not(.btn){font-family:var(--font-mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.07em;text-decoration:none;color:var(--muted)}
+.nav a:not(.btn):hover{color:var(--ink)}
+@media (max-width:780px){.nav a:not(.btn){display:none}}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:var(--space-6);align-items:end;padding-block:var(--space-6) var(--space-5)}
+.hero h1{font-size:clamp(3.1rem,8.6vw,6.75rem);margin-block:var(--space-3) var(--space-4)}
+.hero h1 .w{color:var(--water)}
+.lede{font-size:1.2rem;line-height:1.55;max-width:32em;margin:0 0 var(--space-5)}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.field{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);padding:var(--space-4)}
+.field-title{display:flex;justify-content:space-between;gap:var(--space-3);padding-bottom:12px;border-bottom:1px solid var(--line)}
+.field dl{margin:0}
+.field dl div{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:var(--space-3);padding-block:12px;border-bottom:1px dashed var(--line)}
+.field dl div:last-child{border-bottom:0;padding-bottom:0}
+.field dt{font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding-top:.25em}
+.field dd{margin:0;font-size:1rem;line-height:1.45}
+.field .coord{display:block;font-family:var(--font-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.now-dot{display:inline-flex;align-items:center;gap:8px;font-weight:600}
+.now-dot::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);flex:none}
+@media (max-width:880px){.hero{grid-template-columns:1fr;gap:var(--space-5);padding-block:var(--space-5)}}
+
+/* horizonte */
+.horizon{margin:0;height:clamp(120px,19vw,260px);border-block:1px solid var(--line);overflow:hidden}
+.horizon svg{display:block;width:100%;height:100%}
+.sky{fill:var(--sky)} .sun{fill:var(--sun)} .trees{fill:var(--trees)} .lake{fill:var(--lake)}
+.palm{fill:none;stroke:var(--trees);stroke-width:3;stroke-linecap:round}
+.glint{fill:none;stroke:var(--glint);stroke-width:3;stroke-linecap:round}
+.bird{fill:none;stroke:var(--trees);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* seções */
+.section{padding-top:var(--space-7)}
+.sec-head{display:grid;gap:var(--space-3);max-width:44rem;margin-bottom:var(--space-5)}
+.sec-head h2,.band h2{font-size:clamp(2.5rem,5.6vw,4rem)}
+.sec-lede{margin:0;color:var(--muted);font-size:1.1rem}
+
+/* roteiros */
+.routes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-4)}
+@media (max-width:980px){.routes{grid-template-columns:1fr}}
+.route{display:flex;flex-direction:column;gap:var(--space-3);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);padding:var(--space-4)}
+.route-meta{display:flex;justify-content:space-between;gap:var(--space-3);margin:0;font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.route h3{font-size:2.15rem}
+.route .desc{margin:0;font-size:1rem}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;border-block:1px solid var(--line)}
+.facts div{padding-block:10px}
+.facts div + div{padding-left:12px;border-left:1px solid var(--line)}
+.facts dt{font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.facts dd{margin:0;font-size:.98rem;font-weight:600}
+.route-foot{margin-top:auto;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--space-3)}
+.price{margin:0;line-height:1.1}
+.price small{display:block;margin-bottom:4px;font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.price strong{font-family:var(--font-display);font-stretch:80%;font-variation-settings:"wdth" 80;font-weight:750;font-size:1.85rem;font-variant-numeric:tabular-nums}
+.price span{font-size:.85rem;color:var(--muted)}
+.included{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5);margin-top:var(--space-5);padding-top:var(--space-4);border-top:1px solid var(--line)}
+@media (max-width:720px){.included{grid-template-columns:1fr;gap:var(--space-4)}}
+.included h3{font-family:var(--font-mono);font-stretch:100%;font-variation-settings:normal;font-weight:500;font-size:.75rem;line-height:1.3;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.included ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.included li{display:flex;gap:12px;font-size:1rem}
+.included li::before{content:"+";font-family:var(--font-mono);color:var(--water);font-weight:500}
+.included .no li::before{content:"–";color:var(--muted)}
+
+/* quando ir */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:var(--space-4)}
+.tab{display:inline-flex;align-items:baseline;gap:10px;padding:8px 18px;border:1px solid var(--line-strong);border-radius:var(--radius-pill);background:transparent;color:var(--ink);cursor:pointer;font-family:var(--font-display);font-stretch:80%;font-variation-settings:"wdth" 80;font-weight:700;font-size:1.2rem;line-height:1.2;transition:background-color .15s,color .15s,border-color .15s}
+.tab .mono{font-size:.7rem;font-weight:400;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.tab:hover{border-color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.tab[aria-selected="true"] .mono{color:inherit;opacity:.75}
+.quando{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:var(--space-5);align-items:start}
+@media (max-width:920px){.quando{grid-template-columns:1fr}}
+.cal{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);padding:var(--space-4) var(--space-4) var(--space-3)}
+.cal-cap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;margin:0 0 var(--space-3);font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.cal-plot{position:relative;height:190px}
+.cal-grid,.cal-months,.cal-track{display:grid;grid-template-columns:repeat(12,minmax(0,1fr))}
+.cal-grid{position:absolute;inset:0}
+.cal-grid span{border-left:1px dashed var(--line);transition:background-color .2s}
+.cal-grid span:first-child{border-left:0}
+.cal-grid span.on{background:var(--water-soft)}
+.cal-plot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.area{fill:var(--water);fill-opacity:.16}
+.curve{fill:none;stroke:var(--water);stroke-width:2.5;vector-effect:non-scaling-stroke}
+.cal-y{position:absolute;left:4px;padding:0 4px;background:var(--surface);font-family:var(--font-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.cal-y.top{top:4px} .cal-y.bot{bottom:4px}
+.now{position:absolute;top:0;bottom:0;width:0;border-left:2px solid var(--red)}
+.now span{position:absolute;top:4px;left:6px;padding:0 4px;background:var(--surface);font-family:var(--font-mono);font-size:.66rem;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--red-text);white-space:nowrap}
+.now.flip span{left:auto;right:6px}
+.cal-months{margin-top:8px;text-align:center;font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;color:var(--muted)}
+.cal-months span.on{color:var(--ink);font-weight:500}
+.cal-months .s{display:none}
+@media (max-width:560px){.cal-months .l{display:none}.cal-months .s{display:inline}}
+.cal-rows{display:grid;gap:14px;margin-top:var(--space-3);padding-top:var(--space-3);border-top:1px solid var(--line)}
+.cal-row{display:grid;gap:6px;transition:opacity .2s}
+.cal-row.dim{opacity:.45}
+.cal-label{display:flex;justify-content:space-between;gap:12px;font-size:.95rem;font-weight:600;line-height:1.2}
+.cal-label .mono{font-size:.7rem;font-weight:400;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.cal-track{height:10px;background:var(--bg);border-radius:var(--radius-pill)}
+.bar{background:var(--water);border-radius:var(--radius-pill)}
+.panel{display:grid;gap:var(--space-3);padding-top:var(--space-2)}
+.panel .range{font-family:var(--font-mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:0}
+.panel h3{font-size:3rem}
+.panel p{margin:0}
+.panel h4{margin:var(--space-2) 0 0;font-family:var(--font-mono);font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.chips li{padding:3px 12px;border:1px solid var(--line-strong);border-radius:var(--radius-pill);font-size:.92rem}
+.runs{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.runs li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+.runs a{font-weight:600;text-underline-offset:3px}
+.runs .mono{font-size:.72rem;text-transform:uppercase;color:var(--muted)}
+
+/* passos */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-4);counter-reset:passo}
+@media (max-width:920px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+.steps li{counter-increment:passo;display:grid;gap:8px;align-content:start;padding-top:var(--space-3);border-top:2px solid var(--ink)}
+.steps li::before{content:counter(passo);font-family:var(--font-display);font-stretch:72%;font-variation-settings:"wdth" 72;font-weight:800;font-size:2.75rem;line-height:1;color:var(--water)}
+.steps h3{font-size:1.55rem}
+.steps p{margin:0;font-size:1rem;color:var(--muted)}
+
+/* dúvidas */
+.faq{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:var(--space-5);align-items:start}
+@media (max-width:880px){.faq{grid-template-columns:1fr;gap:0}}
+.faq details{border-top:1px solid var(--line);padding-block:var(--space-3)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{display:flex;justify-content:space-between;gap:var(--space-3);cursor:pointer;list-style:none;font-weight:600;font-size:1.1rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--font-mono);font-size:1.2rem;line-height:1.4;color:var(--water)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{margin:var(--space-2) 0 0;max-width:40em;color:var(--muted)}
+
+/* reserva */
+.band{margin-top:var(--space-7);padding-block:var(--space-7);background:var(--band);color:var(--on-band)}
+.reserva{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:var(--space-6);align-items:start}
+@media (max-width:880px){.reserva{grid-template-columns:1fr;gap:var(--space-5)}}
+.band .eyebrow{color:var(--on-band-muted)}
+.band h2{margin-block:var(--space-3)}
+.band p{margin:0 0 var(--space-3);color:var(--on-band-muted);max-width:30em}
+.band .note{font-size:.95rem}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-3);padding:var(--space-4);background:var(--surface);color:var(--ink);border-radius:var(--radius-md)}
+@media (max-width:520px){.form{grid-template-columns:1fr}}
+.form .full{grid-column:1/-1}
+.in{display:grid;gap:6px}
+.in label{font-family:var(--font-mono);font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.in input,.in select{width:100%;min-height:46px;padding:0 12px;font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);border:1px solid var(--line-strong);border-radius:var(--radius-sm)}
+.in input:focus-visible,.in select:focus-visible{outline:2px solid var(--focus);outline-offset:1px;border-color:var(--focus)}
+.form .btn{width:100%}
+.form-msg{grid-column:1/-1;margin:0;padding:12px 14px;border-radius:var(--radius-sm);background:var(--water-soft);font-size:.95rem;line-height:1.5}
+
+/* rodapé */
+.foot{padding-block:var(--space-5) var(--space-6)}
+.foot-inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-5);font-size:.92rem;color:var(--muted)}
+@media (max-width:720px){.foot-inner{grid-template-columns:1fr;gap:var(--space-4)}}
+.foot p{margin:var(--space-2) 0 0;max-width:34em}
+.foot .brand{color:var(--ink)}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+
+/* Revisão: navegação, legibilidade e uso por teclado. */
+.skip{position:fixed;top:8px;left:12px;z-index:100;padding:12px;background:var(--surface);transform:translateY(-160%)}
+.skip:focus{transform:translateY(0)}
+.demo-banner{margin:0;padding:8px 16px;text-align:center;background:var(--water-soft);color:var(--ink);font: .75rem/1.5 var(--font-mono)}
+.menu-toggle{display:none}
+.band .form p{max-width:none;margin:0;color:var(--ink)}
+.form .hint{font-size:.88rem;color:var(--muted)}
+[aria-invalid="true"]{border-color:var(--red-text)!important}
+.form-msg[data-error="true"]{border-left:3px solid var(--red-text)}
+.privacy{margin-top:24px}
+.privacy summary{cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.nav a:not(.btn){padding-block:12px}
+.tab{min-height:44px}
+@media(max-width:780px){
+  .head-inner{flex-wrap:wrap;gap:12px;padding-block:12px}
+  .menu-toggle{display:inline-flex;margin-left:auto}
+  .nav{display:none;flex-basis:100%;align-items:stretch;gap:4px;flex-direction:column;padding-bottom:8px}
+  .nav.is-open{display:flex}
+  .nav a:not(.btn){display:block;padding:12px 4px}
+  .nav .btn{margin-top:4px}
+  .field dl div{grid-template-columns:minmax(0,.9fr) minmax(0,1fr);gap:12px}
+  .route-meta{flex-wrap:wrap;gap:4px 12px}
+  .section{padding-top:64px}
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--red:#b8322a;--red-deep:#9a2922}}
+</style>
+</head>
+<body>
+<a class="skip" href="#topo">Pular para o conteúdo</a>
+<p class="demo-banner">Projeto de portfólio · agência fictícia · sem reservas ou pagamentos reais</p>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="#topo" aria-label="Corixo, início">
+      <svg viewBox="0 0 34 20" aria-hidden="true"><path d="M2 15 C7 3 12 3 15 10 S23 18 26 9 S31 4 32 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+      corixo
+    </a>
+    <button class="btn btn-quiet btn-sm menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav" type="button">Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Seções">
+      <a href="#roteiros">Roteiros</a>
+      <a href="#quando">Quando ir</a>
+      <a href="#como">Como funciona</a>
+      <a href="#duvidas">Dúvidas</a>
+      <a class="btn btn-red btn-sm" href="#reserva">Simular viagem</a>
+    </nav>
+  </div>
+</header>
+
+<main id="topo" tabindex="-1">
+  <section class="wrap hero">
+    <div>
+      <p class="eyebrow">Expedições no Pantanal norte · saída de Cuiabá, MT</p>
+      <h1>O Pantanal no ritmo da <span class="w">água</span></h1>
+      <p class="lede">Roteiros de 3 a 5 dias pela Transpantaneira, por Porto Jofre e pelo rio Cuiabá. Grupos de até 8 pessoas, guias nascidos na região e saídas marcadas conforme a cheia e a seca.</p>
+      <div class="cta-row">
+        <a class="btn btn-red" href="#reserva">Simular minha viagem</a>
+        <a class="btn btn-quiet" href="#quando">Ver o calendário</a>
+      </div>
+    </div>
+    <aside class="field" aria-label="Resumo da expedição">
+      <div class="field-title">
+        <span class="eyebrow">Ficha da expedição</span>
+        <span class="eyebrow">MT · BR</span>
+      </div>
+      <dl>
+        <div><dt>Fase do calendário</dt><dd><span class="now-dot" id="now-season">Seca · jul–set</span></dd></div>
+        <div><dt>Ponto de saída</dt><dd>Cuiabá, Mato Grosso<span class="coord">15°35′S 56°05′O</span></dd></div>
+        <div><dt>Duração</dt><dd>3 a 5 dias</dd></div>
+        <div><dt>Grupo</dt><dd>até 8 pessoas por saída</dd></div>
+        <div><dt>Guias</dt><dd>pantaneiros, em português e inglês</dd></div>
+      </dl>
+    </aside>
+  </section>
+
+  <figure class="horizon" aria-hidden="true">
+    <svg viewBox="0 0 1440 240" preserveAspectRatio="xMidYMax slice">
+      <rect class="sky" x="0" y="0" width="1440" height="152"/>
+      <circle class="sun" cx="1010" cy="146" r="58"/>
+      <path class="bird" d="M748 66 q7 -7 14 0 q7 -7 14 0"/>
+      <path class="bird" d="M790 50 q6 -6 12 0 q6 -6 12 0"/>
+      <path class="bird" d="M822 76 q5 -5 10 0 q5 -5 10 0"/>
+      <line class="palm" x1="332" y1="150" x2="332" y2="92"/><circle class="trees" cx="332" cy="90" r="10"/>
+      <line class="palm" x1="352" y1="150" x2="352" y2="106"/><circle class="trees" cx="352" cy="104" r="8"/>
+      <line class="palm" x1="612" y1="150" x2="612" y2="84"/><circle class="trees" cx="612" cy="82" r="11"/>
+      <line class="palm" x1="1252" y1="150" x2="1252" y2="98"/><circle class="trees" cx="1252" cy="96" r="9"/>
+      <line class="palm" x1="1276" y1="150" x2="1276" y2="112"/><circle class="trees" cx="1276" cy="110" r="7"/>
+      <ellipse class="trees" cx="40" cy="152" rx="80" ry="14"/>
+      <ellipse class="trees" cx="180" cy="152" rx="44" ry="22"/>
+      <ellipse class="trees" cx="270" cy="152" rx="90" ry="11"/>
+      <ellipse class="trees" cx="430" cy="152" rx="54" ry="26"/>
+      <ellipse class="trees" cx="530" cy="152" rx="110" ry="15"/>
+      <ellipse class="trees" cx="700" cy="152" rx="38" ry="18"/>
+      <ellipse class="trees" cx="790" cy="152" rx="64" ry="10"/>
+      <ellipse class="trees" cx="900" cy="152" rx="70" ry="19"/>
+      <ellipse class="trees" cx="1100" cy="152" rx="48" ry="23"/>
+      <ellipse class="trees" cx="1200" cy="152" rx="120" ry="13"/>
+      <ellipse class="trees" cx="1370" cy="152" rx="80" ry="21"/>
+      <rect class="lake" x="0" y="152" width="1440" height="88"/>
+      <line class="glint" x1="950" y1="166" x2="1070" y2="166"/>
+      <line class="glint" x1="970" y1="178" x2="1050" y2="178"/>
+      <line class="glint" x1="940" y1="191" x2="1080" y2="191" stroke-opacity=".8"/>
+      <line class="glint" x1="985" y1="204" x2="1035" y2="204" stroke-opacity=".7"/>
+      <line class="glint" x1="955" y1="217" x2="1065" y2="217" stroke-opacity=".55"/>
+      <line class="glint" x1="995" y1="230" x2="1025" y2="230" stroke-opacity=".45"/>
+      <line class="glint" x1="210" y1="184" x2="290" y2="184" stroke-opacity=".3"/>
+      <line class="glint" x1="560" y1="206" x2="620" y2="206" stroke-opacity=".3"/>
+    </svg>
+  </figure>
+
+  <section class="wrap section" id="roteiros">
+    <header class="sec-head">
+      <p class="eyebrow">3 roteiros · saídas de fevereiro a novembro</p>
+      <h2>Roteiros</h2>
+      <p class="sec-lede">Todos saem de Cuiabá e voltam para o mesmo ponto. Os preços são por pessoa, em quarto duplo, com as refeições incluídas.</p>
+    </header>
+    <div class="routes">
+      <article class="route" id="rt-transpantaneira">
+        <p class="route-meta"><span>Poconé · MT-060</span><span>3 dias · 2 noites</span></p>
+        <h3>Transpantaneira</h3>
+        <p class="desc">Os 147 km de estrada de terra entre Poconé e Porto Jofre, com mais de cem pontes de madeira. Safári ao amanhecer, focagem noturna e duas noites em pousada de fazenda.</p>
+        <dl class="facts">
+          <div><dt>Saídas</dt><dd>abr–nov</dd></div>
+          <div><dt>Grupo</dt><dd>até 8</dd></div>
+          <div><dt>Ritmo</dt><dd>leve</dd></div>
+        </dl>
+        <div class="route-foot">
+          <p class="price"><small>a partir de</small><strong>R$ 2.890</strong> <span>por pessoa</span></p>
+          <a class="btn btn-line" href="#reserva" data-pick="transpantaneira">Simular roteiro</a>
+        </div>
+      </article>
+      <article class="route" id="rt-porto-jofre">
+        <p class="route-meta"><span>Porto Jofre</span><span>4 dias · 3 noites</span></p>
+        <h3>Onças de Porto Jofre</h3>
+        <p class="desc">No fim da Transpantaneira, o barco sobe os rios Cuiabá, Três Irmãos e Piquiri. Na seca, a onça-pintada caça nas margens e costuma ser vista da água.</p>
+        <dl class="facts">
+          <div><dt>Saídas</dt><dd>jul–out</dd></div>
+          <div><dt>Grupo</dt><dd>até 6</dd></div>
+          <div><dt>Ritmo</dt><dd>leve</dd></div>
+        </dl>
+        <div class="route-foot">
+          <p class="price"><small>a partir de</small><strong>R$ 6.450</strong> <span>por pessoa</span></p>
+          <a class="btn btn-line" href="#reserva" data-pick="porto-jofre">Simular roteiro</a>
+        </div>
+      </article>
+      <article class="route" id="rt-rio-cuiaba">
+        <p class="route-meta"><span>Barão de Melgaço</span><span>5 dias · 4 noites</span></p>
+        <h3>Pantanal de barco</h3>
+        <p class="desc">Saída de Barão de Melgaço, a cerca de 110 km de Cuiabá, descendo o rio até a baía de Chacororé. Canoa pelos corixos, ninhais de garças e noites em casa flutuante.</p>
+        <dl class="facts">
+          <div><dt>Saídas</dt><dd>fev–jun</dd></div>
+          <div><dt>Grupo</dt><dd>até 8</dd></div>
+          <div><dt>Ritmo</dt><dd>moderado</dd></div>
+        </dl>
+        <div class="route-foot">
+          <p class="price"><small>a partir de</small><strong>R$ 4.720</strong> <span>por pessoa</span></p>
+          <a class="btn btn-line" href="#reserva" data-pick="rio-cuiaba">Simular roteiro</a>
+        </div>
+      </article>
+    </div>
+    <div class="included">
+      <div>
+        <h3>Incluído em todos</h3>
+        <ul>
+          <li>Transporte a partir de Cuiabá, em 4x4 ou barco conforme o roteiro</li>
+          <li>Hospedagem em quarto duplo com pensão completa</li>
+          <li>Guia pantaneiro em português e inglês</li>
+          <li>Seguro-viagem durante a expedição</li>
+          <li>Lista das espécies que o grupo registrou</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h3>Não incluído</h3>
+        <ul>
+          <li>Passagem até Cuiabá</li>
+          <li>Bebidas alcoólicas e gorjetas</li>
+          <li>Quarto individual (acréscimo de 35%)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="quando">
+    <header class="sec-head">
+      <p class="eyebrow">Calendário da água</p>
+      <h2>Quando ir</h2>
+      <p class="sec-lede">No Pantanal norte, o ano tem quatro fases, conforme a água sobe e desce. Cada roteiro tem a sua época. Escolha uma fase para ver o que muda. Este calendário é ilustrativo: o ciclo das águas varia entre regiões e anos e não representa condições em tempo real.</p>
+    </header>
+    <div class="tabs" role="tablist" aria-label="Fases do ano">
+      <button class="tab" role="tab" id="tab-cheia" data-season="cheia" aria-controls="season-panel" aria-selected="false" tabindex="-1">Cheia <span class="mono">jan–mar</span></button>
+      <button class="tab" role="tab" id="tab-vazante" data-season="vazante" aria-controls="season-panel" aria-selected="false" tabindex="-1">Vazante <span class="mono">abr–jun</span></button>
+      <button class="tab" role="tab" id="tab-seca" data-season="seca" aria-controls="season-panel" aria-selected="true" tabindex="0">Seca <span class="mono">jul–set</span></button>
+      <button class="tab" role="tab" id="tab-enchente" data-season="enchente" aria-controls="season-panel" aria-selected="false" tabindex="-1">Enchente <span class="mono">out–dez</span></button>
+    </div>
+    <div class="quando">
+      <div class="cal">
+        <p class="cal-cap"><span>Nível da água ao longo do ano</span><span>curva ilustrativa, sem escala</span></p>
+        <div class="cal-plot">
+          <div class="cal-grid" id="cal-grid"></div>
+          <svg viewBox="0 0 1200 190" preserveAspectRatio="none" aria-hidden="true">
+            <path class="area" id="cal-area" d=""/>
+            <path class="curve" id="cal-curve" d=""/>
+          </svg>
+          <span class="cal-y top">água alta</span>
+          <span class="cal-y bot">água baixa</span>
+          <div class="now" id="cal-now"><span>hoje</span></div>
+        </div>
+        <div class="cal-months" id="cal-months"></div>
+        <div class="cal-rows" id="cal-rows"></div>
+      </div>
+      <div class="panel" id="season-panel" role="tabpanel" aria-labelledby="tab-seca" tabindex="0"></div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="como">
+    <header class="sec-head">
+      <p class="eyebrow">Exemplo de experiência · condições fictícias</p>
+      <h2>Como funciona</h2>
+    </header>
+    <ol class="steps">
+      <li><h3>Escolha roteiro e mês</h3><p>Use o calendário para ver qual roteiro sai na época da sua viagem.</p></li>
+      <li><h3>Garanta a vaga</h3><p>Um sinal de 30% reserva seu lugar. O restante vence 30 dias antes da saída.</p></li>
+      <li><h3>Encontro em Cuiabá</h3><p>Buscamos você no aeroporto Marechal Rondon ou no hotel, às 6h do primeiro dia.</p></li>
+      <li><h3>Volte com a lista</h3><p>No último dia, o guia fecha a lista das espécies que o grupo viu, com local e horário.</p></li>
+    </ol>
+  </section>
+
+  <section class="wrap section" id="duvidas">
+    <div class="faq">
+      <header class="sec-head">
+        <p class="eyebrow">Antes de reservar</p>
+        <h2>Dúvidas</h2>
+      </header>
+      <div>
+        <details open>
+          <summary>Qual a melhor época para ver onça-pintada?</summary>
+          <p>De julho a outubro, na seca. Com pouca água, as onças caçam nas margens dos rios e aparecem com frequência no roteiro de Porto Jofre. Nenhum avistamento é garantido.</p>
+        </details>
+        <details>
+          <summary>Preciso tomar alguma vacina?</summary>
+          <p>Antes de uma viagem real, procure um serviço de saúde para avaliar seu histórico de vacinação e receber orientações individuais para o destino.</p>
+        </details>
+        <details>
+          <summary>Tem muito mosquito?</summary>
+          <p>Na cheia e na enchente, sim. Leve repelente e roupas leves de manga comprida. Na seca, bem menos.</p>
+        </details>
+        <details>
+          <summary>Crianças podem ir?</summary>
+          <p>A partir de 8 anos, acompanhadas de um responsável. Para famílias, a Transpantaneira é o roteiro mais tranquilo.</p>
+        </details>
+        <details>
+          <summary>E se o tempo impedir a saída?</summary>
+          <p>Se a estrada ou o rio ficarem intransitáveis, remarcamos sem custo ou devolvemos o valor pago.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="reserva">
+    <div class="wrap reserva">
+      <div>
+        <p class="eyebrow">Experimente o projeto</p>
+        <h2>Simule sua viagem</h2>
+        <p>Escolha o roteiro, o período e o tamanho do grupo para montar um resumo da viagem. Os meses disponíveis acompanham a temporada de cada roteiro.</p>
+        <p class="note">Demonstração de portfólio: não há envio de pedido, cobrança ou confirmação de vaga. Os dados preenchidos ficam apenas nesta página; use informações fictícias.</p>
+      </div>
+      <noscript><p>Ative o JavaScript para usar o calendário interativo e o simulador. As descrições dos roteiros continuam disponíveis acima.</p></noscript>
+      <form class="form" id="form" novalidate aria-describedby="form-help">
+        <p class="full hint" id="form-help">Simulação local. Nome e e-mail são opcionais; não use dados pessoais reais.</p>
+        <div class="in full">
+          <label for="f-nome">Nome fictício (opcional)</label>
+          <input id="f-nome" name="nome" type="text" autocomplete="off" maxlength="80">
+        </div>
+        <div class="in full">
+          <label for="f-email">E-mail de exemplo (opcional)</label>
+          <input id="f-email" name="email" type="email" autocomplete="off" placeholder="nome@example.com" maxlength="254">
+        </div>
+        <div class="in full">
+          <label for="f-roteiro">Roteiro</label>
+          <select id="f-roteiro" name="roteiro">
+            <option value="transpantaneira">Transpantaneira · 3 dias</option>
+            <option value="porto-jofre">Onças de Porto Jofre · 4 dias</option>
+            <option value="rio-cuiaba">Pantanal de barco · 5 dias</option>
+            <option value="indeciso">Ainda não sei</option>
+          </select>
+        </div>
+        <div class="in">
+          <label for="f-mes">Mês e ano</label>
+          <select id="f-mes" name="mes"></select>
+        </div>
+        <div class="in">
+          <label for="f-pessoas">Pessoas</label>
+          <input id="f-pessoas" name="pessoas" type="number" min="1" max="8" step="1" value="2" inputmode="numeric" aria-describedby="group-hint" required>
+          <span class="hint" id="group-hint">De 1 a 8 pessoas.</span>
+        </div>
+        <div class="full">
+          <button class="btn btn-red" type="submit">Gerar simulação</button>
+        </div>
+        <p class="form-msg" id="form-msg" role="status" aria-live="polite" aria-atomic="true" tabindex="-1" hidden></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <div>
+      <a class="brand" href="#topo" aria-label="Corixo, voltar ao início">
+        <svg viewBox="0 0 34 20" aria-hidden="true"><path d="M2 15 C7 3 12 3 15 10 S23 18 26 9 S31 4 32 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+        corixo
+      </a>
+      <p>Corixo é o nome que o pantaneiro dá ao canal que liga uma baía à outra durante a cheia.</p>
+    </div>
+    <div>
+      <p class="eyebrow">Projeto conceitual</p>
+      <p>Corixo Expedições é uma marca fictícia, criada para portfólio. Preços, roteiros e políticas são ilustrativos.</p>
+      <p>Projeto de portfólio de Kaique · 2026</p>
+      <details class="privacy"><summary>Sobre este projeto e seus dados</summary><p>Esta página demonstra design e interações para uma agência fictícia. Não oferece viagens à venda. O simulador não envia nem salva os campos preenchidos em um servidor e não usa armazenamento local. As fontes são carregadas do Google Fonts, serviço externo que recebe dados técnicos da conexão, como endereço IP. A hospedagem também pode manter registros técnicos de acesso.</p></details>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  var MS=['J','F','M','A','M','J','J','A','S','O','N','D'];
+  var MF=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  var LEVEL=[75,92,100,88,68,48,30,18,10,14,30,52];
+  var ORDER=['cheia','vazante','seca','enchente'];
+  var SEASONS={
+    cheia:{name:'Cheia',months:[0,1,2],text:'Os rios transbordam e cobrem boa parte da planície. A viagem é feita de barco, as aves ficam espalhadas e algumas estradas de terra fecham.',see:['ariranha','biguá','martim-pescador','jacaré-do-pantanal']},
+    vazante:{name:'Vazante',months:[3,4,5],text:'A água baixa e fica presa nas baías e nos corixos. Os peixes se concentram e atraem garças, colhereiros e jacarés. O calor dá uma trégua.',see:['colhereiro','garça-branca','capivara','jacaré-do-pantanal']},
+    seca:{name:'Seca',months:[6,7,8],text:'Pouca água e muitos animais em volta dela. É a melhor época para ver onças nas margens e ipês floridos. Dias quentes e noites frescas.',see:['onça-pintada','tuiuiú no ninho','arara-azul','ipê florido']},
+    enchente:{name:'Enchente',months:[9,10,11],text:'As chuvas voltam e o verde reaparece em poucas semanas. Faz muito calor e os filhotes de tuiuiú começam a deixar os ninhos.',see:['filhote de tuiuiú','tamanduá-bandeira','anta','arara-azul']}
+  };
+  var ROUTES=[
+    {id:'transpantaneira',name:'Transpantaneira',from:3,to:10,max:8},
+    {id:'porto-jofre',name:'Onças de Porto Jofre',from:6,to:9,max:6},
+    {id:'rio-cuiaba',name:'Pantanal de barco',from:1,to:5,max:8}
+  ];
+  function range(a,b){return a===b?M[a]:M[a]+'–'+M[b];}
+  function seasonOf(m){for(var i=0;i<ORDER.length;i++){if(SEASONS[ORDER[i]].months.indexOf(m)>-1)return ORDER[i];}}
+  var now=new Date().getMonth();
+  var nowKey=seasonOf(now);
+
+  // ficha do hero
+  var ns=SEASONS[nowKey];
+  document.getElementById('now-season').textContent=ns.name+' · '+range(ns.months[0],ns.months[2]);
+
+  // grade, meses e barras
+  var grid=document.getElementById('cal-grid'), months=document.getElementById('cal-months'), rows=document.getElementById('cal-rows');
+  var cells=[], mEls=[], rowEls=[];
+  for(var i=0;i<12;i++){
+    var c=document.createElement('span'); grid.appendChild(c); cells.push(c);
+    var m=document.createElement('span'); m.innerHTML='<span class="l">'+M[i]+'</span><span class="s" aria-hidden="true">'+MS[i]+'</span>'; months.appendChild(m); mEls.push(m);
+  }
+  ROUTES.forEach(function(r){
+    var row=document.createElement('div'); row.className='cal-row';
+    row.innerHTML='<div class="cal-label"><span>'+r.name+'</span><span class="mono">'+range(r.from,r.to)+'</span></div><div class="cal-track"><span class="bar" style="grid-column:'+(r.from+1)+' / '+(r.to+2)+'"></span></div>';
+    rows.appendChild(row); rowEls.push(row);
+  });
+
+  // curva da água
+  function y(v){return 178-v*1.6;}
+  var edge=(LEVEL[11]+LEVEL[0])/2;
+  var pts=[[0,y(edge)]];
+  LEVEL.forEach(function(v,i){pts.push([(i+.5)*100,y(v)]);});
+  pts.push([1200,y(edge)]);
+  var d='M'+pts[0][0]+','+pts[0][1].toFixed(1);
+  for(var k=0;k<pts.length-1;k++){
+    var p0=pts[k-1]||pts[k], p1=pts[k], p2=pts[k+1], p3=pts[k+2]||p2;
+    var c1x=p1[0]+(p2[0]-p0[0])/6, c1y=p1[1]+(p2[1]-p0[1])/6;
+    var c2x=p2[0]-(p3[0]-p1[0])/6, c2y=p2[1]-(p3[1]-p1[1])/6;
+    d+=' C'+c1x.toFixed(1)+','+c1y.toFixed(1)+' '+c2x.toFixed(1)+','+c2y.toFixed(1)+' '+p2[0]+','+p2[1].toFixed(1);
+  }
+  document.getElementById('cal-curve').setAttribute('d',d);
+  document.getElementById('cal-area').setAttribute('d',d+' L1200,190 L0,190 Z');
+
+  // marcador de hoje
+  var nowEl=document.getElementById('cal-now');
+  nowEl.style.left='calc('+((now+.5)/12*100).toFixed(3)+'% - 1px)';
+  if(now>=9) nowEl.classList.add('flip');
+
+  // abas das fases
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  var panel=document.getElementById('season-panel');
+  function esc(s){return s.replace(/[&<>"]/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch];});}
+  function select(key,focus){
+    var s=SEASONS[key];
+    tabs.forEach(function(t){var on=t.dataset.season===key; t.setAttribute('aria-selected',on?'true':'false'); t.tabIndex=on?0:-1; if(on&&focus)t.focus();});
+    cells.forEach(function(c,i){c.classList.toggle('on',s.months.indexOf(i)>-1);});
+    mEls.forEach(function(c,i){c.classList.toggle('on',s.months.indexOf(i)>-1);});
+    var runs=[];
+    ROUTES.forEach(function(r,idx){
+      var ov=s.months.filter(function(m){return m>=r.from&&m<=r.to;});
+      rowEls[idx].classList.toggle('dim',ov.length===0);
+      if(ov.length) runs.push('<li><a href="#rt-'+r.id+'">'+esc(r.name)+'</a><span class="mono">'+range(ov[0],ov[ov.length-1])+'</span></li>');
+    });
+    panel.setAttribute('aria-labelledby','tab-'+key);
+    panel.innerHTML=
+      '<p class="range">'+range(s.months[0],s.months[2])+(key===nowKey?' · fase atual':'')+'</p>'+
+      '<h3>'+s.name+'</h3>'+
+      '<p>'+esc(s.text)+'</p>'+
+      '<h4>O que costuma aparecer</h4>'+
+      '<ul class="chips">'+s.see.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>'+
+      '<h4>Roteiros com saída nessa fase</h4>'+
+      '<ul class="runs">'+runs.join('')+'</ul>';
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){select(t.dataset.season,false);});
+    t.addEventListener('keydown',function(e){
+      var j=null;
+      if(e.key==='ArrowRight')j=(i+1)%tabs.length;
+      else if(e.key==='ArrowLeft')j=(i-1+tabs.length)%tabs.length;
+      else if(e.key==='Home')j=0; else if(e.key==='End')j=tabs.length-1;
+      if(j!==null){e.preventDefault(); select(tabs[j].dataset.season,true);}
+    });
+  });
+  select(nowKey,false);
+
+  // Menu móvel com fechamento por navegação e Escape.
+  var menu=document.getElementById('menu-toggle'), nav=document.getElementById('site-nav');
+  function closeMenu(){nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false');menu.textContent='Menu';}
+  menu.addEventListener('click',function(){var open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav.classList.toggle('is-open',open);menu.textContent=open?'Fechar':'Menu';});
+  nav.addEventListener('click',function(e){if(e.target.closest('a'))closeMenu();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.getAttribute('aria-expanded')==='true'){closeMenu();menu.focus();}});
+
+  // Simulação local: somente meses futuros dentro da temporada.
+  var mes=document.getElementById('f-mes'), sel=document.getElementById('f-roteiro');
+  var form=document.getElementById('form'), msg=document.getElementById('form-msg');
+  var pes=document.getElementById('f-pessoas'), email=document.getElementById('f-email');
+  function route(){return ROUTES.find(function(r){return r.id===sel.value;});}
+  function resetMessage(){msg.hidden=true;[pes,email,mes].forEach(function(el){el.removeAttribute('aria-invalid');el.removeAttribute('aria-errormessage');});}
+  function syncRoute(){
+    var r=route(), previous=mes.value, date=new Date();mes.textContent='';
+    for(var offset=0;offset<18;offset++){
+      var dt=new Date(date.getFullYear(),date.getMonth()+offset,1), month=dt.getMonth();
+      if(!r||(month>=r.from&&month<=r.to)){
+        var option=document.createElement('option');option.value=dt.getFullYear()+'-'+String(month+1).padStart(2,'0');option.textContent=MF[month]+' de '+dt.getFullYear();mes.appendChild(option);
+      }
+    }
+    var undecided=document.createElement('option');undecided.value='indeciso';undecided.textContent='Ainda não sei';mes.appendChild(undecided);
+    if([].some.call(mes.options,function(o){return o.value===previous;}))mes.value=previous;
+    pes.max=String(r?r.max:8);document.getElementById('group-hint').textContent='De 1 a '+pes.max+' pessoas'+(r?' neste roteiro.':'.');resetMessage();
+  }
+  sel.addEventListener('change',syncRoute);
+  form.addEventListener('input',resetMessage);
+  form.addEventListener('change',resetMessage);
+  [].forEach.call(document.querySelectorAll('[data-pick]'),function(a){a.addEventListener('click',function(){sel.value=a.dataset.pick;syncRoute();});});
+  syncRoute();
+  form.addEventListener('submit',function(e){
+    e.preventDefault();resetMessage();
+    var invalid=null, problem='', r=route(), n=Number(pes.value);
+    if(email.value&&!email.validity.valid){invalid=email;problem='Confira o e-mail ou deixe o campo vazio.';}
+    else if(!pes.validity.valid||!Number.isInteger(n)){invalid=pes;problem='Escolha um número inteiro entre 1 e '+pes.max+' pessoas para este roteiro.';}
+    else if(!mes.value||!mes.selectedOptions.length||mes.selectedOptions[0].disabled){invalid=mes;problem='Escolha um período disponível.';}
+    msg.hidden=false;msg.dataset.error=String(!!invalid);
+    if(invalid){msg.textContent=problem;invalid.setAttribute('aria-invalid','true');invalid.setAttribute('aria-errormessage','form-msg');invalid.focus();return;}
+    var period=mes.value==='indeciso'?'período a definir':mes.selectedOptions[0].textContent;
+    msg.textContent='Simulação concluída: '+(r?r.name:'roteiro a definir')+', '+period+', '+n+(n===1?' pessoa.':' pessoas.')+' Nenhum pedido foi enviado e nenhuma vaga foi reservada.';
+    msg.focus();
+  });
+})();
+</script>
+</body>
+</html>
